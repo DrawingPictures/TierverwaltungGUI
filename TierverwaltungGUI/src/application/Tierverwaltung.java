@@ -21,12 +21,13 @@ public class Tierverwaltung {
 	private TextField tierFeld;
 	
 	private Button insertButton;
-	private Button deleteButton;
+	private Button removeButton;
 	private Button changeButton;
-	private Button iterateButton;
+	private Button showButton;
 	
 	public Tierverwaltung() {
 		tiere = new ArrayList<>();
+		tiere.add(new Tier("Hund", "Braun", "02.02.2020"));
 	}
 	
 	public GridPane createLayout() {
@@ -36,14 +37,34 @@ public class Tierverwaltung {
 		grid.setVgap(10);
 		grid.setPadding(new Insets(10, 10, 10, 10));
 		
+
 		nameLabel = new Label("Verwalten Sie die Tiere nach Ihrer Wahl.");
 		nameLabel.setFont(new Font(20));
-		grid.setConstraints(nameLabel, 1, 2);
+		grid.setConstraints(nameLabel, 0, 0);
+		
+		insertButton = new Button("Insert");
+		insertButton.setFont(new Font(20));
+		//insertButton.setOnAction(e -> einfuegen(tiere));
+		grid.setConstraints(insertButton, 1, 0);
+		
+		removeButton = new Button("Remove");
+		removeButton.setFont(new Font(20));
+		//removeButton.setOnAction(e -> loeschen());
+		grid.setConstraints(removeButton, 1, 1);
+		
+		changeButton = new Button("Change");
+		changeButton.setFont(new Font(20));
+		grid.setConstraints(changeButton, 2, 0);
+		
+		showButton = new Button("Show Tiere");
+		showButton.setFont(new Font(20));
+		grid.setConstraints(showButton, 2, 1);
 		
 		
 		
 		
-		grid.getChildren().addAll(nameLabel);
+		
+		grid.getChildren().addAll(nameLabel, insertButton, removeButton, changeButton, showButton);
 		
 		return grid;
 	}

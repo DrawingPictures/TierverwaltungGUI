@@ -30,13 +30,13 @@ public class Tierverwaltung {
 	private Button removeButton;
 	private Button changeButton;
 	private Button showButton;
+	
 	private Label ausgabeLabel;
 	
 	private boolean anzeige = false;
 	
 	public Tierverwaltung() {
 		tiere = new ArrayList<>();
-		tiere.add(new Tier("Hund", "Braun", "02.02.2020"));
 	}
 	
 	public GridPane createLayout() {
@@ -71,22 +71,26 @@ public class Tierverwaltung {
 		removeButton = new Button("Remove");
 		removeButton.setFont(new Font(20));
 		removeButton.setOnAction(e -> loeschen());
-		grid.setConstraints(removeButton, 1, 1);
+		grid.setConstraints(removeButton, 2, 0);
 		
 		changeButton = new Button("Change");
 		changeButton.setFont(new Font(20));
-		grid.setConstraints(changeButton, 2, 0);
+		grid.setConstraints(changeButton, 3, 0);
+		
+		ausgabeLabel = new Label("Ausgabe: ");
+		ausgabeLabel.setFont(new Font(30));
+		grid.setConstraints(ausgabeLabel, 0, 4);
 		
 		showButton = new Button("Show Tiere");
 		showButton.setFont(new Font(20));
 		showButton.setOnAction(e -> ausgeben());
-		grid.setConstraints(showButton, 2, 1);
+		grid.setConstraints(showButton, 0, 5);
 		
 		
 		
 		
 		
-		grid.getChildren().addAll(nameLabel, typFeld, hautfarbeFeld, geburtsdatumFeld,
+		grid.getChildren().addAll(ausgabeLabel, nameLabel, typFeld, hautfarbeFeld, geburtsdatumFeld,
 				insertButton, removeButton, changeButton, showButton);
 		
 		return grid;
@@ -149,7 +153,10 @@ public class Tierverwaltung {
 	
 	private void ausgeben() {
 		
-		tiere.forEach((i) -> System.out.println(i));
+		for(Tier i : tiere) {
+			
+			anzeigeFenster("ID: " + i.getId() + "\nTier: " + i.getTyp() + "\nHautfarbe: " + i.getHautfarbe() + "\nGeburtsdatum: " + i.getGeburtstag());
+		}
 	}
 	
 	public void zeigeFehlermeldung(String text) {

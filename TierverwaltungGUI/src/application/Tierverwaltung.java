@@ -1,5 +1,8 @@
 package application;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -33,10 +36,10 @@ public class Tierverwaltung {
 	
 	private Label ausgabeLabel;
 	
-	private boolean anzeige = false;
 	
 	public Tierverwaltung() {
 		tiere = new ArrayList<>();
+		
 	}
 	
 	public GridPane createLayout() {
@@ -103,14 +106,13 @@ public class Tierverwaltung {
 			
 			if(typ.isEmpty() || hautfarbe.isEmpty() || geburtsdatum.isEmpty()) {
 				zeigeFehlermeldung("Bitte füllen Sie die Felder aus");
-			} else {
-				anzeige = anzeigeFenster("Operation bestätigt");
-			}
+			} 
 			
 			Tier neuesTier = new Tier(typ, hautfarbe, geburtsdatum);
-			tiere.add(neuesTier);
-			
-			
+			if(!typ.isEmpty() && !hautfarbe.isEmpty() && !geburtsdatum.isEmpty()) {
+				tiere.add(neuesTier);
+				anzeigeFenster("Operation bestätigt.");
+			}
 			
 			typFeld.clear();
 			hautfarbeFeld.clear();
@@ -178,6 +180,17 @@ public class Tierverwaltung {
 		alert.showAndWait();
 		
 		return true;
+	}
+	
+	private void speichereTiereInDatei() {
+		try(BufferedWriter writer = new BufferedWriter(new FileWriter("tiere.csv"))) {
+			for(Tier tier : tiere) {
+				writer.write(tier.getId() + "," + tier.getTyp() + "," + tier.getHautfarbe() + "," + tier.getGeburtstag());
+				writer.newLine();
+			}
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

@@ -181,16 +181,5 @@ public class Tierverwaltung {
 		
 		return true;
 	}
-	
-	private void speichereTiereInDatei() {
-		try(BufferedWriter writer = new BufferedWriter(new FileWriter("tiere.csv"))) {
-			for(Tier tier : tiere) {
-				writer.write(tier.getId() + "," + tier.getTyp() + "," + tier.getHautfarbe() + "," + tier.getGeburtstag());
-				writer.newLine();
-			}
-		} catch(IOException e) {
-			e.printStackTrace();
-		}
-	}
 
 }

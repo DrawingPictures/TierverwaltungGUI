@@ -2,12 +2,14 @@ package Tiere;
 
 public class Tier {
 	
-	private static int id = 0;
+	private static int idCounter = 0;
+	private int id;
 	private String typ;
 	private String hautfarbe;
 	private String geburtstag;
 	
 	public Tier(String typ, String hautfarbe, String geburtstag) {
+		this.id = ++idCounter;
 		this.typ = typ;
 		this.hautfarbe = hautfarbe;
 		this.geburtstag = geburtstag;
@@ -32,8 +34,8 @@ public class Tier {
 	public void setGeburtstag(String geburtstag) {
 		this.geburtstag = geburtstag;
 	}
-	public static int getId() {
-		return id++;
+	public int getId() {
+		return id;
 	}
 	
 	

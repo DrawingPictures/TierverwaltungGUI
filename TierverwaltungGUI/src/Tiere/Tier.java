@@ -5,12 +5,14 @@ public class Tier {
 	private static int idCounter = 0;
 	private int id;
 	private String typ;
+	private String name;
 	private String hautfarbe;
 	private String geburtstag;
 	
-	public Tier(String typ, String hautfarbe, String geburtstag) {
+	public Tier(String typ, String name, String hautfarbe, String geburtstag) {
 		this.id = ++idCounter;
 		this.typ = typ;
+		this.name = name;
 		this.hautfarbe = hautfarbe;
 		this.geburtstag = geburtstag;
 		id++;
@@ -21,6 +23,12 @@ public class Tier {
 	}
 	public void setTyp(String typ) {
 		this.typ = typ;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 	public String getHautfarbe() {
 		return hautfarbe;

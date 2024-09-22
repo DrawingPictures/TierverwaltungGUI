@@ -25,7 +25,9 @@ public class Tierverwaltung {
 	private List<Tier> tiere;
 	private Label nameLabel;
 	
+	private TextField idFeld;
 	private TextField typFeld;
+	private TextField nameFeld;
 	private TextField hautfarbeFeld;
 	private TextField geburtsdatumFeld;
 	
@@ -48,23 +50,30 @@ public class Tierverwaltung {
 		grid.setHgap(10);
 		grid.setVgap(10);
 		grid.setPadding(new Insets(10, 10, 10, 10));
-		
 
 		nameLabel = new Label("Verwalten Sie die Tiere nach Ihrer Wahl.");
 		nameLabel.setFont(new Font(20));
 		grid.setConstraints(nameLabel, 0, 0);
 		
+		idFeld = new TextField();
+		idFeld.setPromptText("Geben Sie die ID ein...");
+		grid.setConstraints(idFeld, 0, 1);
+		
 		typFeld = new TextField();
 		typFeld.setPromptText("Geben Sie den Typ ein...");
-		grid.setConstraints(typFeld, 0, 1);
+		grid.setConstraints(typFeld, 0, 2);
+		
+		nameFeld = new TextField();
+		nameFeld.setPromptText("Geben Sie den Namen des Tieres ein...");
+		grid.setConstraints(nameFeld, 0, 3);
 		
 		hautfarbeFeld = new TextField();
 		hautfarbeFeld.setPromptText("Geben Sie die Hautfarbe ein...");
-		grid.setConstraints(hautfarbeFeld, 0, 2);
+		grid.setConstraints(hautfarbeFeld, 0, 4);
 		
 		geburtsdatumFeld = new TextField();
 		geburtsdatumFeld.setPromptText("Geben Sie das Geburtsdatum des Tieres ein...");
-		grid.setConstraints(geburtsdatumFeld, 0, 3);
+		grid.setConstraints(geburtsdatumFeld, 0, 5);
 		
 		insertButton = new Button("Insert");
 		insertButton.setFont(new Font(20));
@@ -78,22 +87,23 @@ public class Tierverwaltung {
 		
 		changeButton = new Button("Change");
 		changeButton.setFont(new Font(20));
+		changeButton.setOnAction(e -> aendern());
 		grid.setConstraints(changeButton, 3, 0);
 		
 		ausgabeLabel = new Label("Ausgabe: ");
 		ausgabeLabel.setFont(new Font(30));
-		grid.setConstraints(ausgabeLabel, 0, 4);
+		grid.setConstraints(ausgabeLabel, 0, 6);
 		
 		showButton = new Button("Show Tiere");
 		showButton.setFont(new Font(20));
 		showButton.setOnAction(e -> ausgeben());
-		grid.setConstraints(showButton, 0, 5);
+		grid.setConstraints(showButton, 0, 7);
 		
 		
 		
 		
 		
-		grid.getChildren().addAll(ausgabeLabel, nameLabel, typFeld, hautfarbeFeld, geburtsdatumFeld,
+		grid.getChildren().addAll(ausgabeLabel, nameLabel, idFeld, typFeld, nameFeld, hautfarbeFeld, geburtsdatumFeld,
 				insertButton, removeButton, changeButton, showButton);
 		
 		return grid;
@@ -101,20 +111,22 @@ public class Tierverwaltung {
 	
 	private void einfuegen() {
 			String typ = typFeld.getText();
+			String name = nameFeld.getText();
 			String hautfarbe = hautfarbeFeld.getText();
 			String geburtsdatum = geburtsdatumFeld.getText();
 			
-			if(typ.isEmpty() || hautfarbe.isEmpty() || geburtsdatum.isEmpty()) {
+			if(typ.isEmpty() || name.isEmpty() || hautfarbe.isEmpty() || geburtsdatum.isEmpty()) {
 				zeigeFehlermeldung("Bitte füllen Sie die Felder aus");
 			} 
 			
-			Tier neuesTier = new Tier(typ, hautfarbe, geburtsdatum);
-			if(!typ.isEmpty() && !hautfarbe.isEmpty() && !geburtsdatum.isEmpty()) {
+			Tier neuesTier = new Tier(typ, name, hautfarbe, geburtsdatum);
+			if(!typ.isEmpty() && !name.isEmpty() && !hautfarbe.isEmpty() && !geburtsdatum.isEmpty()) {
 				tiere.add(neuesTier);
 				anzeigeFenster("Operation bestätigt.");
 			}
 			
 			typFeld.clear();
+			nameFeld.clear();
 			hautfarbeFeld.clear();
 			geburtsdatumFeld.clear();
 		
@@ -123,7 +135,7 @@ public class Tierverwaltung {
 	private void loeschen() {
 		
 		try {
-			int id = Integer.parseInt(typFeld.getText());
+			int id = Integer.parseInt(idFeld.getText());
 		
 			//Filtert die Tier-ID aus der Tier-Liste
 			Optional<Tier> entferntesTier = tiere.stream()
@@ -131,11 +143,11 @@ public class Tierverwaltung {
 					.findFirst();
 			
 			if(entferntesTier.isPresent()) {
-				tiere.remove(entferntesTier);
-				anzeigeFenster("Tier mit ID" + id + "wurde entfernt.");
+				tiere.remove(entferntesTier.get());
+				anzeigeFenster("Tier mit ID " + id + " wurde entfernt.");
 			} else {
 				
-				zeigeFehlermeldung("Kein Tier mit ID" + id + "gefunden.");
+				zeigeFehlermeldung("Kein Tier mit ID " + id + " gefunden.");
 			}
 			
 		} catch(NumberFormatException e) {
@@ -149,15 +161,33 @@ public class Tierverwaltung {
 	
 	private void aendern() {
 		String typ = typFeld.getText();
+		String name = nameFeld.getText();
 		String hautfarbe = hautfarbeFeld.getText();
 		String geburtsdatum = geburtsdatumFeld.getText();
+		
+		try {
+			int id = Integer.parseInt(idFeld.getText());
+			
+			if(typ.isEmpty() || hautfarbe.isEmpty() || geburtsdatum.isEmpty()) {
+				zeigeFehlermeldung("Bitte füllen Sie die Felder aus");
+			} 
+			
+			Tier neuesTier = new Tier(typ, name, hautfarbe, geburtsdatum);
+			if(!typ.isEmpty() && !name.isEmpty() && !hautfarbe.isEmpty() && !geburtsdatum.isEmpty()) {
+				tiere.set(id, neuesTier);
+				anzeigeFenster("Operation bestätigt.");
+			}
+			
+		} catch(NumberFormatException e) {
+			zeigeFehlermeldung("Bitte eine gültige Id eingeben.");
+		}
 	}
 	
 	private void ausgeben() {
 		
 		for(Tier i : tiere) {
 			
-			anzeigeFenster("ID: " + i.getId() + "\nTier: " + i.getTyp() + "\nHautfarbe: " + i.getHautfarbe() + "\nGeburtsdatum: " + i.getGeburtstag());
+			anzeigeFenster("ID: " + i.getId() + "\nTier: " + i.getTyp() + "\nName: " + i.getName() + "\nHautfarbe: " + i.getHautfarbe() + "\nGeburtsdatum: " + i.getGeburtstag());
 		}
 	}
 	

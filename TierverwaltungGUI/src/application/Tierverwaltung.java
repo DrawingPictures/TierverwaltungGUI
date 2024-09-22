@@ -119,11 +119,14 @@ public class Tierverwaltung {
 				zeigeFehlermeldung("Bitte füllen Sie die Felder aus");
 			} 
 			
-			Tier neuesTier = new Tier(typ, name, hautfarbe, geburtsdatum);
+			Tier neuesTier = new Tier(tiere.size(), typ, name, hautfarbe, geburtsdatum);
+			
 			if(!typ.isEmpty() && !name.isEmpty() && !hautfarbe.isEmpty() && !geburtsdatum.isEmpty()) {
 				tiere.add(neuesTier);
 				anzeigeFenster("Operation bestätigt.");
 			}
+			
+			
 			
 			typFeld.clear();
 			nameFeld.clear();
@@ -154,7 +157,6 @@ public class Tierverwaltung {
 			zeigeFehlermeldung("Bitte eine gültige Id eingeben");
 		}
 		
-		
 		typFeld.clear();
 		
 	}
@@ -172,7 +174,7 @@ public class Tierverwaltung {
 				zeigeFehlermeldung("Bitte füllen Sie die Felder aus");
 			} 
 			
-			Tier neuesTier = new Tier(typ, name, hautfarbe, geburtsdatum);
+			Tier neuesTier = new Tier(tiere.size(), typ, name, hautfarbe, geburtsdatum);
 			if(!typ.isEmpty() && !name.isEmpty() && !hautfarbe.isEmpty() && !geburtsdatum.isEmpty()) {
 				tiere.set(id, neuesTier);
 				anzeigeFenster("Operation bestätigt.");

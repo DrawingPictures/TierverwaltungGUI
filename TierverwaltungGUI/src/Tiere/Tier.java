@@ -2,20 +2,20 @@ package Tiere;
 
 public class Tier {
 	
-	private static int idCounter = 0;
 	private int id;
 	private String typ;
 	private String name;
 	private String hautfarbe;
 	private String geburtstag;
 	
-	public Tier(String typ, String name, String hautfarbe, String geburtstag) {
-		this.id = ++idCounter;
+	public Tier(int id, String typ, String name, String hautfarbe, String geburtstag) {
+		
+		this.id = id;
 		this.typ = typ;
 		this.name = name;
 		this.hautfarbe = hautfarbe;
 		this.geburtstag = geburtstag;
-		id++;
+
 	}
 	
 	public String getTyp() {
